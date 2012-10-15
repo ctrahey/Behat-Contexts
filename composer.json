@@ -1,4 +1,9 @@
 {
   "name": "trahey/trahey",
-  "description": "A test composer module"
+  "description": "A test composer module",
+  "autoload": {
+    "psr-0": {
+      "Trahey\\Behat": "src/"
+    }
+  }
 }
