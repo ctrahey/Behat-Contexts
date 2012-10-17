@@ -1,9 +1,9 @@
 {
-  "name": "trahey/trahey",
-  "description": "A test composer module",
+  "name": "mtm/behat",
+  "description": "Provides various subcontexts for Behat",
   "autoload": {
     "psr-0": {
-      "Trahey\\Behat": "src/"
+      "MTM\\Behat": "src/"
     }
   }
 }

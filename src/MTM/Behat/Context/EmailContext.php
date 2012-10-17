@@ -1,5 +1,5 @@
 <?php
-namespace Trahey\Behat\Context;
+namespace MTM\Behat\Context;
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
