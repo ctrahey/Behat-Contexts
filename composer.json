@@ -3,7 +3,7 @@
   "description": "Provides various subcontexts for Behat",
   "autoload": {
     "psr-0": {
-      "MTM\\BehatContexts": "src/"
+      "MTM\\Behat": "src/"
     }
   }
 }
