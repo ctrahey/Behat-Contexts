@@ -1,9 +1,9 @@
 {
-  "name": "mtm/behat",
+  "name": "mtm/behat-contexts",
   "description": "Provides various subcontexts for Behat",
   "autoload": {
     "psr-0": {
-      "MTM\\Behat": "src/"
+      "MTM\\BehatContexts": "src/"
     }
   }
 }

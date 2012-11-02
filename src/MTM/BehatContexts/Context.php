@@ -1,11 +1,9 @@
 <?php
-namespace MTM\Behat\Context;
-use Drupal\DrupalExtension\Context\DrupalContext;
+namespace MTM\BehatContexts;
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
 
-class MTMContext extends DrupalContext {
-  
+class Context extends Drupal\DrupalExtension\Context\DrupalContex {
   /**
    * @beforeScenario @email
    */
