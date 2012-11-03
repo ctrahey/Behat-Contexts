@@ -9,11 +9,12 @@ use Behat\Behat\Context\BehatContext,
 class EmailContext extends BehatContext
 {
   /**
-     * @Given /^I have an empty inbox$/
-     */
-    public function iHaveAnEmptyInbox() {
-      throw new PendingException();
-    }
+   * @Given /^I have an empty inbox$/
+   */
+  public function iHaveAnEmptyInbox() {
+    throw new PendingException();
+  }
+    
   
   
 }
