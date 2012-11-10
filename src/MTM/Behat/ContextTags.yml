@@ -3,3 +3,7 @@ email:
 facebook:
   - EmailContext
   - FacebookContext
+responsive:
+  - ResponsiveContext
+misc:
+  - MiscContext
