@@ -4,14 +4,8 @@ namespace MTM\Behat;
 /**
  * Misc context.
  */
-class MiscContext extends \Behat\Behat\Context\BehatContext
+class MiscContext extends SubContext
 {
-  public function __call($method, $args) {
-    if(method_exists($this->getMainContext(), $method)) {
-      return call_user_func_array(array($this->getMainContext(), $method), $args);
-    }
-    return parent::__call($method, $args);
-  }
   /**
    * @Given /^(?:|I )am on a smartphone$/
    */

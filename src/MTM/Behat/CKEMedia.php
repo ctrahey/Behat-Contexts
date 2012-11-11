@@ -4,7 +4,7 @@ namespace MTM\Behat;
 /**
  * CKEMedia context.
  */
-class CKEMediaContext extends \Behat\Behat\Context\BehatContext
+class CKEMediaContext extends SubContext
 {
   /**
    * @When /^(?:|I )click on the media button$/
