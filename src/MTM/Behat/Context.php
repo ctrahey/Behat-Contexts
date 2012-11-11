@@ -14,6 +14,7 @@ class Context extends \Drupal\DrupalExtension\Context\DrupalContext {
    * @beforeScenario
    */
   public function attachEmailContext($event) {
+    $this->useContext('misc', new MiscContext());
     if($event instanceof \Behat\Behat\Event\OutlineEvent) {
       $node = $event->getOutline();
     } elseif ($event instanceof \Behat\Behat\Event\ScenarioEvent) {

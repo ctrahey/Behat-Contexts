@@ -6,6 +6,29 @@ namespace MTM\Behat;
  */
 class MiscContext extends \Behat\Behat\Context\BehatContext
 {
+  public function __call($method, $args) {
+    if(method_exists($this->getMainContext(), $method)) {
+      return call_user_func_array(array($this->getMainContext(), $method), $args);
+    }
+    return parent::__call($method, $args);
+  }
+  /**
+   * @Given /^(?:|I )am on a smartphone$/
+   */
+  public function amOnASmartphone()
+  {
+      $this->getSession()->resizeWindow(520, 700);
+  }
+  
+  /**
+   * @Given /^(?:|I )am on a desktop$/
+   */
+  public function amOnADesktop()
+  {
+    
+      $this->getSession()->getDriver()->resizeWindow(1024, 768);
+  }
+  
   
   /**
    * @Given /^(?:|I )am creating content of type "(?P<type>(?:[^"]|\\")*)"$/
