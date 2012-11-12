@@ -8,5 +8,4 @@ responsive:
 misc:
   - MiscContext
 drupal:
-  - Drupal\DrupalExtension\Context\DrupalContext
-  
+  - Wrappers\DrupalContext

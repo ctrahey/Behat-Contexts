@@ -35,6 +35,9 @@ class Context extends BehatContext{
    */
   public function useContext($alias, $object) {
     parent::useContext($alias, $object);
+    if(empty($this->container)) {
+      throw new \Exception('No Service Container configured on Context. Did you forget to configure MTM Extension?');
+    }
     $reader = $this->container->get('behat.context.reader');
     $dispatcher = $this->container->get('behat.context.dispatcher');
     $dispatcher->initializeContext($object);
@@ -102,7 +105,27 @@ class Context extends BehatContext{
       $subContextClass = $this->methodSubContextMap[$method];
       $subContext = $this->getSubcontextByClassName($subContextClass);
       return call_user_func_array(array($subContext, $method), $args);
+    } else {
+      throw new \Exception('Cannot locate method "' . $method . '". This may occur due to a missing tag (@drupal is common)');
     }
+  }
+  
+  public function __get($propName) {
+    foreach($this->getSubcontexts() as $subcontext) {
+      if(property_exists($subcontext, $propName)) {
+        return $subcontext->$propName;
+      }
+    }
+  }
+  
+  public function __set($propName, $val) {
+    foreach($this->getSubcontexts() as $subcontext) {
+      if(property_exists($subcontext, $propName)) {
+        $subcontext->$propName = $val;
+        return;
+      }
+    }
+    $this->$propName = $val;
   }
   
   /**
