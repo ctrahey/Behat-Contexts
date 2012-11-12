@@ -7,3 +7,6 @@ responsive:
   - ResponsiveContext
 misc:
   - MiscContext
+drupal:
+  - Drupal\DrupalExtension\Context\DrupalContext
+  

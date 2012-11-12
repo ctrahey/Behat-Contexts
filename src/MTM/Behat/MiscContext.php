@@ -3,6 +3,11 @@ namespace MTM\Behat;
 
 /**
  * Misc context.
+ * A library of generic or overtly useful step definitions.
+ * As these grow, consider creating dedicated subcontexts
+ * for meaningful groups. 
+ *
+ * This subcontext is always loaded.
  */
 class MiscContext extends SubContext
 {
@@ -19,7 +24,6 @@ class MiscContext extends SubContext
    */
   public function amOnADesktop()
   {
-    
       $this->getSession()->getDriver()->resizeWindow(1024, 768);
   }
   

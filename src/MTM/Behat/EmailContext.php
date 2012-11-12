@@ -4,6 +4,7 @@ use Behat\Behat\Exception\PendingException;
 
 /**
  * Email context.
+ * @todo ... this is just an idea... 
  */
 class EmailContext extends SubContext
 {
