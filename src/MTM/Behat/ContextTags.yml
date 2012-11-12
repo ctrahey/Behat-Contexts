@@ -9,3 +9,5 @@ misc:
   - MiscContext
 drupal:
   - Wrappers\DrupalContext
+wywiwyg-media:
+  - CKEMediaContext

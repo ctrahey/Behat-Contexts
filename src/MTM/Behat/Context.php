@@ -51,7 +51,7 @@ class Context extends BehatContext{
    */
   public function getClassTags() {
     $tags = array();
-    $refl = new \ReflectionClass($this);
+    $refl = new \ReflectionClass(get_called_class());
     $matches = array();
     $comment = $refl->getDocComment();
     preg_match('/@tags (.+)/', $comment, $matches);
@@ -74,8 +74,8 @@ class Context extends BehatContext{
       return;
     }
     $tags = $node->getTags();
-    // grab any tags declared at the class level    
-    $tags += $this->getClassTags();
+    // grab any tags declared at the class level
+    $tags = array_merge($tags, $this->getClassTags());
     foreach($tags as $tag) {
       $this->attachContextsForTag($tag);      
     }
