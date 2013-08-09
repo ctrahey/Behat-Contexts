@@ -93,7 +93,7 @@ class Context extends BehatContext{
          $driverName = substr($tagName, 0, $index);
          if(!$mink->hasSession($driverName)) {
            $driverClass = '\\Behat\\Mink\\Driver\\' . $tagName;
-           $mink->addSession($driverName, new $driverClass);
+           $mink->registerSession($driverName, new $driverClass);
          }
          $mink->setDefaultSessionName($driverName);
        }

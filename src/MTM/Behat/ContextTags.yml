@@ -1,5 +1,7 @@
 email:
   - EmailContext
+persona:
+  - MultiPersonaContext
 facebook:
   - EmailContext
   - FacebookContext
