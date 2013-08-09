@@ -8,6 +8,11 @@ use Behat\Behat\Context\BehatContext;
  */
 class Context extends BehatContext{
   /**
+   * @property string name of user-configured default driver session.
+   */
+  protected $defaultSessionName = NULL;
+
+  /**
    * @property array $tagsConfig Map tags to subcontexts
    */
   protected $tagsConfig = NULL;
@@ -62,6 +67,40 @@ class Context extends BehatContext{
   }
 
   /**
+   * @afterScenario
+   */
+  public function restoreDefaultSession() {
+    $mink = $this->getMink();
+    $mink->setDefaultSessionName($this->defaultSessionName);
+  }
+
+   public function detectPreferredDriver($event) {
+     $mink = $this->getMink();
+     if(!$this->defaultSessionName) {
+       $this->defaultSessionName = $mink->getDefaultSessionName();
+     }
+     if($event instanceof \Behat\Behat\Event\OutlineEvent) {
+       $node = $event->getOutline();
+     } elseif ($event instanceof \Behat\Behat\Event\ScenarioEvent) {
+       $node = $event->getScenario();
+     } else {
+       return;
+     }
+     $tags = $node->getTags();
+     foreach($tags as $tagName) {
+       $index = strpos($tagName, 'Driver');
+       if(FALSE !== $index) {
+         $driverName = substr($tagName, 0, $index);
+         if(!$mink->hasSession($driverName)) {
+           $driverClass = '\\Behat\\Mink\\Driver\\' . $tagName;
+           $mink->addSession($driverName, new $driverClass);
+         }
+         $mink->setDefaultSessionName($driverName);
+       }
+     }
+   }
+
+  /**
    * @beforeScenario
    */
   public function attachScenarioContexts($event) {
@@ -79,6 +118,7 @@ class Context extends BehatContext{
     foreach($tags as $tag) {
       $this->attachContextsForTag($tag);      
     }
+    $this->detectPreferredDriver($event);
   }
   
   /**
