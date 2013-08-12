@@ -19,12 +19,9 @@ class MultiPersonaContext extends SubContext
   public function changePersona($name) {
     $mink = $this->getMink();
     if(!$mink->hasSession($name)) {
-      $oldDriver = $this->getSession()->getDriver();
-      $driverClass = get_class($oldDriver);
-      $newDriver = new $driverClass($oldDriver->browserName, $oldDriver->desiredCapabilities);
-      $newSession = new \Behat\Mink\Session($newDriver);
-      $mink->registerSession($name, $newSession);
-    }
+        $newSession = clone $this->getSession();
+        $mink->registerSession($name, $newSession);
+      }
     $mink->setDefaultSessionName($name);
   }
 }
