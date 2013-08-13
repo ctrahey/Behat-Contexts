@@ -6,7 +6,7 @@ use Behat\Behat\Context\BehatContext;
  * Metal Toad's core Context class.
  * All FeatureContext classes should directly extend this.
  */
-class Context extends BehatContext{
+class Context extends BehatContext implements Service\LocationsConsumerInterface{
   /**
    * @property string name of user-configured default driver session.
    */
@@ -28,11 +28,26 @@ class Context extends BehatContext{
    */
   protected $container = NULL;
   
+  /**
+   * @property Service\Locations
+   */
+  protected $locationsService = NULL;
   
   public function __construct(array $params) {
     $this->container = $params['service_container'];
   }
-  
+
+  public function setLocations(Service\Locations $locations) {
+    $this->locationsService = $locations;
+  }
+
+  /**
+  * @Given /^I (?:am on|visit) (?:the|a) ([^"]*)[ ]*(?:page|a)$/
+   */
+  public function gotToNamedPath($pathName) {
+    return $this->visit($this->locationsService->resolve($pathName));
+  }
+
   /**
    * Initialize subcontexts just like they deserve :-)
    * This allows subcontexts to be added after __construct()
@@ -41,7 +56,7 @@ class Context extends BehatContext{
   public function useContext($alias, $object) {
     parent::useContext($alias, $object);
     if(empty($this->container)) {
-      throw new \Exception('No Service Container configured on Context. Did you forget to configure MTM Extension?');
+      throw new \Exception('No Service Container configured on Context. Did you forget to configure MTM Extension? Or perhaps you have a Context __construct which is not calling parent::__construct()?');
     }
     $reader = $this->container->get('behat.context.reader');
     $dispatcher = $this->container->get('behat.context.dispatcher');

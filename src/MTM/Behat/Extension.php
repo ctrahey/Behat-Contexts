@@ -2,6 +2,8 @@
 namespace MTM\Behat;
 use Behat\Behat\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder,
+    Symfony\Component\Config\FileLocator,
+    Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
     Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 /**
@@ -19,7 +21,9 @@ class Extension implements ExtensionInterface {
    * @param ContainerBuilder $container ContainerBuilder instance
    */
   public function load(array $config, ContainerBuilder $container) {
-
+    $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/Service'));
+    $loader->load('core.xml');
+    $container->setParameter('mtm.behat.locations.config', $config['locations']);
   }
 
   /**
@@ -28,6 +32,13 @@ class Extension implements ExtensionInterface {
    * @param ArrayNodeDefinition $builder
    */
   public function getConfig(ArrayNodeDefinition $builder) {
+    $builder->
+        children()->
+            arrayNode('locations')->
+                prototype('variable')->end()->
+            end()->
+        end()->
+    end();
   }
 
   /**
