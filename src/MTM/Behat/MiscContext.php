@@ -79,25 +79,6 @@ class MiscContext extends SubContext
   }
   
   /**
-   * Assert selector is hidden.
-   *
-   * @Then /^(?:|I )should not be able to see "(?P<element>[^"]*)"$/
-   */
-  public function assertHiddenOnPage($selector)
-  {
-    assertTrue($this->getSession()->evaluateScript("return jQuery('" . $selector . "').is(':hidden')"));        
-  }
-  /**
-   * Assert selector is visible.
-   *
-   * @Then /^(?:|I )should be able to see "(?P<element>[^"]*)"$/
-   */
-  public function assertVisibleOnPage($selector)
-  {
-    assertTrue($this->getSession()->evaluateScript("return jQuery('" . $selector . "').is(':visible')"));        
-  }
-
-  /**
    * Select an option based on CSS seelctor
    *
    * @When /^(?:|I )pick "(?P<option>(?:[^"]|\\")*)" from "(?P<selector>[^"]*)"$/
@@ -125,6 +106,18 @@ class MiscContext extends SubContext
     $this->iAmLoggedInWithRole('programmer');
     $this->getSession()->visit($this->locatePath('/users/' . $user_url));
     $this->getSession()->getPage()->clickLink('Masquerade as ' . $user);
+  }
+  
+  public function assertTrue($subject, $message = 'The tested subject was not truthy.') {
+    if(!(bool)$subject) {
+      throw new \Exception($message);
+    }
+  }
+
+  public function assertFalse($subject, $message = 'The tested subject was not falsey.') {
+    if((bool)$subject) {
+      throw new \Exception($message);
+    }
   }
 
 }

@@ -13,3 +13,5 @@ drupal:
   - Wrappers\DrupalContext
 wywiwyg-media:
   - CKEMediaContext
+visibility:
+  - VisibilityContext
