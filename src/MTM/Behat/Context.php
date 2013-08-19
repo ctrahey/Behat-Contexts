@@ -16,23 +16,23 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
    * @property array $tagsConfig Map tags to subcontexts
    */
   protected $tagsConfig = NULL;
-  
+
   /**
    * A map from a __call() method name to
    * a subcontext where it is implemented.
    */
   protected $methodSubContextMap = array();
-  
+
   /**
    * Dependency Injection ServiceContainer, all of Behat's Services
    */
   protected $container = NULL;
-  
+
   /**
    * @property Service\Locations
    */
   protected $locationsService = NULL;
-  
+
   public function __construct(array $params) {
     $this->container = $params['service_container'];
   }
@@ -63,7 +63,7 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
     $dispatcher->initializeContext($object);
     $reader->readFromContext($object);
   }
-  
+
   /**
    * Find tags applied to this class in it's docblock
    * Format (in the docblock above the class):
@@ -131,14 +131,14 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
     // grab any tags declared at the class level
     $tags = array_merge($tags, $this->getClassTags());
     foreach($tags as $tag) {
-      $this->attachContextsForTag($tag);      
+      $this->attachContextsForTag($tag);
     }
     $this->detectPreferredDriver($event);
   }
-  
+
   /**
    * try to find exactly one subcontext with that method
-   * this allows us to use subcontexts similar to parent classes  
+   * this allows us to use subcontexts similar to parent classes
    */
   public function __call($method, $args) {
     if(!array_key_exists($method, $this->methodSubContextMap)) {
@@ -149,7 +149,7 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
           if($found) {
             $previous = $this->methodSubContextMap[$method];
             $errString = 'Call to ambiguous method (%s). Found in subcontext "%s" and "%s"';
-            throw new Exception(sprintf($errString, $method, $previous, $className));
+            throw new \Exception(sprintf($errString, $method, $previous, $className));
           }
           $found = true;
           $this->methodSubContextMap[$method] = $className;
@@ -164,7 +164,7 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
       throw new \Exception('Cannot locate method "' . $method . '". This may occur due to a missing tag (@drupal is common)');
     }
   }
-  
+
   public function __get($propName) {
     foreach($this->getSubcontexts() as $subcontext) {
       if(property_exists($subcontext, $propName)) {
@@ -172,7 +172,7 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
       }
     }
   }
-  
+
   public function __set($propName, $val) {
     foreach($this->getSubcontexts() as $subcontext) {
       if(property_exists($subcontext, $propName)) {
@@ -182,7 +182,7 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
     }
     $this->$propName = $val;
   }
-  
+
   /**
    * Load mapping of tag to subcontext class.
    */
@@ -194,9 +194,9 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
     }
     return $this->tagsConfig;
   }
-  
+
   /**
-   * Using tags configuration, instantiate and 
+   * Using tags configuration, instantiate and
    * attach the appropriate subcontexts for this tag
    */
   public function attachContextsForTag($tag) {
@@ -217,5 +217,5 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
       }
     }
   }
-  
+
 }
