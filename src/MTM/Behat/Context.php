@@ -42,7 +42,8 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
   }
 
   /**
-  * @Given /^I (?:am on|visit) (?:the|a) ([^"]*)[ ]*(?:page|a)$/
+   * @Given /^(?:|I )(?:am on|visit) (?:the|a) ([^"]*)[ ]*(?:page|a)$/
+   * @When /^(?:|I )(?:go to|visit) (?:the|a) ([^"]*)[ ]*(?:page|a)$/
    */
   public function gotToNamedPath($pathName) {
     return $this->visit($this->locationsService->resolve($pathName));
