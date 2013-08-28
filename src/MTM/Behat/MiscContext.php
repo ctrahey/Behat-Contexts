@@ -8,7 +8,7 @@ use Behat\Behat\Context\Step\Then;
  * Misc context.
  * A library of generic or overtly useful step definitions.
  * As these grow, consider creating dedicated subcontexts
- * for meaningful groups. 
+ * for meaningful groups.
  *
  * This subcontext is always loaded.
  */
@@ -21,7 +21,7 @@ class MiscContext extends SubContext
   {
       $this->getSession()->resizeWindow(520, 700);
   }
-  
+
   /**
    * @Given /^(?:|I )am on a desktop$/
    */
@@ -29,8 +29,8 @@ class MiscContext extends SubContext
   {
       $this->getSession()->getDriver()->resizeWindow(1024, 768);
   }
-  
-  
+
+
   /**
    * @Given /^(?:|I )am creating content of type "(?P<type>(?:[^"]|\\")*)"$/
    */
@@ -38,23 +38,23 @@ class MiscContext extends SubContext
   {
       return new Given(sprintf('I am on "/node/add/%s"', $type));
   }
-  
-  /**              
+
+  /**
    * @When /^(?:|I )wait for "(?P<element>[^"]*)" to be visible$/
    */
   public function waitForVisible($element)
   {
-      $this->getSession()->wait(5000, "jQuery('" . $element . "').is(':visible')");        
+      $this->getSession()->wait(5000, "jQuery('" . $element . "').is(':visible')");
   }
-  
-  /**              
+
+  /**
    * @Then /^the page title should be "(?P<text>(?:[^"]|\\")*)"$/
    */
   public function valuePageTitle($text)
   {
     return new Then(sprintf('I should see "%s" in the "%s" element', $text, 'h1'));
   }
-  
+
   /**
   * @Then /^I should see an alert$/
   */
@@ -69,7 +69,7 @@ class MiscContext extends SubContext
       throw new Exception("No alert found!" . $this->output);
     }
   }
-  
+
   /**
   * @when /^(?:|I )confirm the popup$/
   */
@@ -77,7 +77,7 @@ class MiscContext extends SubContext
   {
       $this->getSession()->getDriver()->wdSession->accept_alert();
   }
-  
+
   /**
    * Select an option based on CSS seelctor
    *
@@ -96,8 +96,18 @@ class MiscContext extends SubContext
   public function iWaitForSeconds($sec) {
     $this->getSession()->wait((int)$sec * 1000);
   }
-  
-  
+
+  /**
+   * @When /^I enter "(?P<offset>[^"]*)" from "(?P<basetime>[^"]*)" for "(?P<field>(?:[^"]|\\")*)"$/
+   */
+  public function iEnterTimeForField($offset, $basetime, $field) {
+    $base = strtotime($basetime); // This could be now, yesterday
+    $time = strtotime($offset, $base);
+    $output = date('Y-m-d H:i:s', $time);
+    return new When("I enter \"$output\" for \"$field\"");
+  }
+
+
   /**
    * @Given /^I masquerade as "([^"]*)"$/
    */
@@ -107,7 +117,7 @@ class MiscContext extends SubContext
     $this->getSession()->visit($this->locatePath('/users/' . $user_url));
     $this->getSession()->getPage()->clickLink('Masquerade as ' . $user);
   }
-  
+
   public function assertTrue($subject, $message = 'The tested subject was not truthy.') {
     if(!(bool)$subject) {
       throw new \Exception($message);
