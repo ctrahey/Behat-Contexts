@@ -90,8 +90,8 @@ class MiscContext extends SubContext
   }
 
   /**
-   * @Given /^I wait for "([^"]*)" second$/   
-   * @Given /^I wait for "([^"]*)" seconds$/   
+   * @Given /^I wait for "([^"]*)" seconds?$/
+   * @Given /^I wait for ([^"]*) seconds?$/
    */
   public function iWaitForSeconds($sec) {
     $this->getSession()->wait((int)$sec * 1000);
