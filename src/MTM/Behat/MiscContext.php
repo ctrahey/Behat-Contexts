@@ -130,4 +130,41 @@ class MiscContext extends SubContext
     }
   }
 
+  /**
+   * Attempts to find a button in a table row containing giving text.
+   *
+   * @Given /^I press "(?P<button>[^"]*)" in the "(?P<row_text>[^"]*)" row$/
+   */
+  public function assertPressButtonInTableRow($button, $row_text) {
+    $page = $this->getSession()->getPage();
+    $rows = $page->findAll('css', 'tr');
+    if (!$rows) {
+      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
+    }
+    $row_found = FALSE;
+    foreach ($rows as $row) {
+      if (strpos($row->getText(), $row_text) !== FALSE) {
+        $row_found = TRUE;
+        // Found text in this row, now find link in a cell.
+        $cells = $row->findAll('css', 'td');
+        if (!$cells) {
+          throw new \Exception(sprintf('No cells found in table row on the page %s', $this->getSession()->getCurrentUrl()));
+        }
+        foreach ($cells as $cell) {
+          $buttonObj = $cell->findButton($button);
+          if (!empty($buttonObj)) {
+            $cell->pressButton($button);
+            return;
+          }
+        }
+      }
+    }
+    if ($row_found) {
+      throw new \Exception(sprintf('Found a row containing "%s", but no "%s" button on the page %s', $row_text, $button, $this->getSession()->getCurrentUrl()));
+    }
+    else {
+      throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $row_text, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
 }
