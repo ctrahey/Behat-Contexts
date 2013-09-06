@@ -4,13 +4,18 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
         <parameter key=".behat.locations.config" type="collection"></parameter>
+        <parameter key=".behat.email.email_box" type="string"></parameter>
         <parameter key="mtm.locations.class">MTM\Behat\Service\Locations</parameter>
+        <parameter key="mtm.email.class">MTM\Behat\Service\Email</parameter>
         <parameter key="mtm.behat.context.initializer.class">MTM\Behat\Context\Initializer</parameter>
     </parameters>
     <services>
 
         <service id="mtm.locations" class="%mtm.locations.class%">
           <argument>%mtm.behat.locations.config%</argument>
+        </service>
+        <service id="mtm.email" class="%mtm.email.class%">
+          <argument>%mtm.behat.email.email_box%</argument>
         </service>
 
         <service id="mtm.behat.context.initializer" class="%mtm.behat.context.initializer.class%">

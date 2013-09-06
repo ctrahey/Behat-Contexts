@@ -24,6 +24,7 @@ class Extension implements ExtensionInterface {
     $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/Service'));
     $loader->load('core.xml');
     $container->setParameter('mtm.behat.locations.config', $config['locations']);
+    $container->setParameter('mtm.behat.email.email_box', $config['email_box']);
   }
 
   /**
@@ -37,6 +38,7 @@ class Extension implements ExtensionInterface {
             arrayNode('locations')->
                 prototype('variable')->end()->
             end()->
+            scalarNode('email_box')->end()->
         end()->
     end();
   }
@@ -51,5 +53,5 @@ class Extension implements ExtensionInterface {
       new Compiler\SubContextReaderPass(),
     );
   }
-  
+
 }
