@@ -29,7 +29,7 @@ function framesShareHorizontalSpace(frame1, frame2) {
 function framesShareVerticalSpace(frame1, frame2) {
   var frame1VerticalSegment = getVerticalFrameSegment(frame1);
   var frame2VerticalSegment = getVerticalFrameSegment(frame2);
-  return segmentsOverlap(frame1VerticalSegment, frame2VerticalSegment);  
+  return segmentsOverlap(frame1VerticalSegment, frame2VerticalSegment);
 }
 function framesIntersection(frame1, frame2) {
   var horiz = framesShareHorizontalSpace(frame1, frame2);
@@ -71,13 +71,13 @@ function framesIdentical(frame1, frame2) {
     return {
       origin : {
         x: this.offset().left,
-        y: this.offset().top        
+        y: this.offset().top
       },
       size : {
         width: this.width(),
-        height: this.height()        
+        height: this.height()
       }
-    };    
+    };
   };
   $.fn.styleMatch = function(prop, value) {
     var matches = [];
@@ -97,7 +97,6 @@ function framesIdentical(frame1, frame2) {
     var obscuredByClipping = false;
     clippingParents.each(function() {
       if(!el.frameIntersection($(this))) {
-        console.log("OBSURED BY CLIPPING!!");
         obscuredByClipping = true;
       }
     })
@@ -124,8 +123,8 @@ function framesIdentical(frame1, frame2) {
       }
     });
     if(clipping) return clipping;
-    
-    clippingCandidates = $('*');
+
+    clippingCandidates = $('*').filter(':actuallyVisible');
     myZ = el.css('z-index');
     if(myZ == 'auto') myZ = 0;
     clippingCandidates.each(function() {
