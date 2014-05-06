@@ -24,7 +24,14 @@ class Extension implements ExtensionInterface {
     $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/Service'));
     $loader->load('core.xml');
     $container->setParameter('mtm.behat.locations.config', $config['locations']);
-    $container->setParameter('mtm.behat.email.email_box', $config['email_box']);
+    // Backwards compatibility for old style behat.local.yml config
+    if (isset($config['email_box']) && !isset($config['email']['mailbox'])) {
+      $config['email']['mailbox'] = $config['email_box'];
+    }
+    $container->setParameter('mtm.behat.email.email_box', $config['email']['mailbox']);
+    if (!empty($config['email']['class']) && class_exists($config['email']['class'])) {
+      $container->setParameter('mtm.email.class', $config['email']['class']);
+    }
   }
 
   /**
@@ -39,6 +46,12 @@ class Extension implements ExtensionInterface {
                 prototype('variable')->end()->
             end()->
             scalarNode('email_box')->end()->
+            arrayNode('email')->
+                children()->
+                    scalarNode('mailbox')->end()->
+                    scalarNode('class')->end()->
+                end()->
+            end()->
         end()->
     end();
   }
