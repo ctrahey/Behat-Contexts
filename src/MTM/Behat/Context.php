@@ -33,6 +33,11 @@ class Context extends BehatContext implements Service\LocationsConsumerInterface
    */
   protected $locationsService = NULL;
 
+  /**
+   * @property Service\Email
+   */
+  protected $mailService = NULL;
+
   public function __construct(array $params) {
     $this->container = $params['service_container'];
   }

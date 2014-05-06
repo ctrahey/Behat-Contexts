@@ -8,6 +8,9 @@ use Behat\Behat\Context\Initializer\InitializerInterface,
 use MTM\Behat\Service\Locations,
     MTM\Behat\Service\LocationsConsumerInterface;
 
+use MTM\Behat\Service\Email,
+    MTM\Behat\Service\EmailConsumerInterface;
+
 /**
  * MTM Extension contexts initializer.
  * Sets Location service on contexts that have a setLocations.
@@ -17,6 +20,7 @@ use MTM\Behat\Service\Locations,
 class Initializer implements \Behat\Behat\Context\Initializer\InitializerInterface
 {
     private $locations;
+    private $mailbox;
     private $parameters;
 
     /**
@@ -25,9 +29,10 @@ class Initializer implements \Behat\Behat\Context\Initializer\InitializerInterfa
      * @param Mink  $mink
      * @param array $parameters
      */
-    public function __construct(Locations $locationService, array $parameters = array())
+    public function __construct(Locations $locationService, Email $emailService, array $parameters = array())
     {
         $this->locations = $locationService;
+        $this->mailbox = $emailService;
         $this->parameters = $parameters;
     }
 
@@ -40,7 +45,10 @@ class Initializer implements \Behat\Behat\Context\Initializer\InitializerInterfa
      */
     public function supports(ContextInterface $context)
     {
-        return ($context instanceof LocationsConsumerInterface);
+        $loc = ($context instanceof LocationsConsumerInterface);
+        $email = ($context instanceof EmailConsumerInterface);
+        $supports =  $loc || $email;
+        return $supports;
     }
 
     /**
@@ -50,6 +58,11 @@ class Initializer implements \Behat\Behat\Context\Initializer\InitializerInterfa
      */
     public function initialize(ContextInterface $context)
     {
-        $context->setLocations($this->locations);
+        if($context instanceof LocationsConsumerInterface) {
+            $context->setLocations($this->locations);
+        }
+        if ($context instanceof EmailConsumerInterface) {
+            $context->setEmail($this->mailbox);
+        }
     }
 }

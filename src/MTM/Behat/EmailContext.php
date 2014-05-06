@@ -1,18 +1,18 @@
 <?php
 namespace MTM\Behat;
 use Behat\Behat\Exception\PendingException;
-use MTM\Behat\Service\Email;
+use MTM\Behat\Service\Email, MTM\Behat\Service\EmailConsumerInterface;
 
 /**
  * Email context.
  */
-class EmailContext extends SubContext
+class EmailContext extends SubContext implements EmailConsumerInterface
 {
 
   protected $mailService = NULL;
 
-  public function __construct() {
-    $this->mailService = new Email("/var/mail/jonathan");
+  public function setEmail(Email $emailService) {
+    $this->mailService = $emailService;
   }
 
   /**

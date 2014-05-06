@@ -20,6 +20,7 @@
 
         <service id="mtm.behat.context.initializer" class="%mtm.behat.context.initializer.class%">
             <argument type="service" id="mtm.locations" />
+            <argument type="service" id="mtm.email" />
             <tag name="behat.context.initializer" />
         </service>
 
